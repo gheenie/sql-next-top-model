@@ -21,5 +21,9 @@ SET agent = 'Vivian'
 WHERE agent = 'Verity'
 AND model_id IN (SELECT model_id FROM louboutin_models)
 RETURNING *;
-\c topmodelsql
--- all the models from London
+
+WITH sam_pagne_id AS (SELECT model_id FROM thirdnf_models where model_name = 'Sam Pagne')
+DELETE FROM thirdnf_brands
+WHERE brand = 'Harrods'
+AND model_id = (SELECT * FROM sam_pagne_id);
+RETURNING *;
