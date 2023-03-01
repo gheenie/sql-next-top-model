@@ -1,0 +1,19 @@
+You are now connected to database "topmodelsql" as user "gk".
+       brand        | model_id 
+--------------------+----------
+ Atlantis Doromania |        4
+(1 row)
+
+INSERT 0 1
+ area  | agent  | category 
+-------+--------+----------
+ Milan | Vivian | Fashion
+(1 row)
+
+INSERT 0 1
+ model_id |  model_name   | price_per_event | agent  |    trait     | rating |    event_date    | revenue 
+----------+---------------+-----------------+--------+--------------+--------+------------------+---------
+        1 | Bartholomew P |          499.99 | Vivian | Pro strutter |      7 | 15 November 2022 | 2999.94
+(1 row)
+
+UPDATE 1
