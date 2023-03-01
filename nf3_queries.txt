@@ -17,3 +17,30 @@ INSERT 0 1
 (1 row)
 
 UPDATE 1
+DELETE 1
+       brand        | model_id 
+--------------------+----------
+ Louboutin          |        1
+ H&M                |        1
+ Aldi               |        2
+ Poundland          |        2
+ Patagonia          |        3
+ Buff               |        3
+ Salomon            |        3
+ Adidas             |        4
+ Ebay               |        5
+ Vinted             |        5
+ Instagram          |        5
+ Charities          |        6
+ Oricle             |        7
+ Marks and Spencer  |        7
+ HSBC               |        8
+ Ikea               |        9
+ Wayfair            |        9
+ Amazon             |        9
+ Nike               |       10
+ Adidas             |       10
+ Reebok             |       10
+ Atlantis Doromania |        4
+(22 rows)
+
