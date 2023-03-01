@@ -1,0 +1,47 @@
+You are now connected to database "topmodelsql" as user "george".
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+ model_id |    model_name    |    area     | price_per_event |  category   |   agent   |      trait      | rating |    event_date     | revenue 
+----------+------------------+-------------+-----------------+-------------+-----------+-----------------+--------+-------------------+---------
+        8 | Sam Pagne        | Athens      |          899.99 | Swimsuit    | Katherine | Old-money       |      9 | 20 January 2022   | 9899.89
+        6 | Cat Wang         | Milan       |             600 | Fashion     | Verity    | Catwalker       |      8 | 14 May 2022       |    3600
+       10 | Slam Dunk        | Los Angeles |          801.65 | Fitness     | Paul      | High-tops       |      9 | 23 August 2022    | 7214.85
+        4 | Rathbones Arr    | London      |          263.82 | Parts       | Kev       | Hand modelling  |      5 | 6 March 2022      | 1846.74
+        5 | Sarah B          | Online      |          432.25 | Promotional | Alex      | Influencer      |      7 | 23 October 2022   |    3458
+        2 | Notso Neat       | Online      |            9.99 | Promotional | Alex      | The dadbod drop |      1 | 12 September 2022 |  149.85
+        7 | Starr Schema     | Crewe       |             250 | Glamour     | Rose      | Databases       |      5 | 12 September 2022 |    1500
+        1 | Bartholomew P    | Milan       |          499.99 | Fashion     | Verity    | Pro strutter    |      7 | 15 November 2022  | 2999.94
+        3 | Jarred MacKenzie | Los Angeles |             170 | Fitness     | Paul      | Fire_eating     |      4 | 8 January 2022    |    1530
+        9 | Salle De Bain    | Stockholm   |             150 | Commercial  | Christian | Architect       |      3 | 16 July 2022      |    1050
+(10 rows)
+
+INSERT 0 10
+       brand       | model_id 
+-------------------+----------
+ Louboutin         |        1
+ H&M               |        1
+ Aldi              |        2
+ Poundland         |        2
+ Patagonia         |        3
+ Buff              |        3
+ Salomon           |        3
+ Adidas            |        4
+ Ebay              |        5
+ Vinted            |        5
+ Instagram         |        5
+ Charities         |        6
+ Oricle            |        7
+ Marks and Spencer |        7
+ Harrods           |        8
+ HSBC              |        8
+ Ikea              |        9
+ Wayfair           |        9
+ Amazon            |        9
+ Nike              |       10
+ Adidas            |       10
+ Reebok            |       10
+(22 rows)
+
+INSERT 0 22
