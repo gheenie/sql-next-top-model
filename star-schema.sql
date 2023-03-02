@@ -10,13 +10,14 @@
 
 \c topmodelsql
 
+DROP TABLE IF EXISTS fact_revenue;
+DROP TABLE IF EXISTS fact_models;
 DROP TABLE IF EXISTS dim_area;
 DROP TABLE IF EXISTS dim_brands;
 DROP TABLE IF EXISTS dim_dates;
 DROP TABLE IF EXISTS dim_agents;
 DROP TABLE IF EXISTS dim_models;
-DROP TABLE IF EXISTS fact_revenue;
-DROP TABLE IF EXISTS fact_models;
+DROP TABLE IF EXISTS dim_category;
 
 CREATE TABLE dim_area(
     area_id SERIAL PRIMARY KEY,
@@ -68,14 +69,58 @@ CREATE TABLE fact_models(
     model_id INT REFERENCES dim_models(model_id),
     agent_id INT REFERENCES dim_agents(agent_id),
     brand_id INT REFERENCES dim_brands(brand_id),
-    date_id DATE REFERENCES dim_dates(date_id),
     category_id INT REFERENCES dim_category(category_id)
 );
 
 CREATE TABLE fact_revenue(
-    revenue INT,
+    revenue FLOAT,
     model_id INT references dim_models(model_id),
     agent_id INT references dim_agents(agent_id),
     date_id DATE references dim_dates(date_id),
     category_id INT REFERENCES dim_category(category_id)
 );
+
+
+INSERT INTO dim_models
+    (model_id, model_name)
+    SELECT DISTINCT model_id, model_name FROM models
+RETURNING *;
+
+INSERT INTO dim_agents
+    (agent)
+    SELECT DISTINCT(agent) FROM models
+RETURNING *;
+
+INSERT INTO dim_category
+    (category)
+    SELECT DISTINCT(category) FROM models
+RETURNING *;
+
+INSERT INTO dim_area
+    (area)
+    SELECT area FROM models
+RETURNING *;
+
+INSERT INTO dim_brands
+    (brand, model_id)
+    SELECT brand, model_id FROM thirdnf_brands
+RETURNING *;
+
+INSERT INTO fact_revenue
+    (revenue, model_id, date_id)
+    SELECT revenue, model_id, CAST(event_date AS DATE) FROM models
+RETURNING *;
+
+WITH agents AS (SELECT agent_id, model_id FROM dim_agents JOIN models USING (agent))
+UPDATE fact_revenue
+SET agent_id = (SELECT agent_id FROM agents WHERE fact_revenue.model_id = agents.model_id);
+
+WITH categories AS (SELECT category_id, model_id FROM dim_category JOIN models USING (category))
+UPDATE fact_revenue
+SET category_id = (SELECT category_id FROM categories WHERE fact_revenue.model_id = categories.model_id);
+
+SELECT * FROM fact_revenue;
+
+-- INSERT INTO fact_models
+--     (rating, price_per_event, trait, model_id, agent_id, category_id)
+--     SELECT 
