@@ -40,5 +40,11 @@ VALUES
     (9, 'Salle De Bain', 'Stockholm', 150.00 , 'Commercial', 'Christian', 'Amazon', 'Architect', 3, '16 July 2022', 1050),
     (10, 'Slam Dunk', 'Los Angeles', 801.65 , 'Fitness', 'Paul', 'Nike', 'High-tops', 9, '23 August 2022', 7214.85),
     (10, 'Slam Dunk', 'Los Angeles', 801.65 , 'Fitness', 'Paul', 'Adidas', 'High-tops', 9, '23 August 2022', 7214.85),
-    (10, 'Slam Dunk', 'Los Angeles', 801.65 , 'Fitness', 'Paul', 'Reebok', 'High-tops', 9, '23 August 2022', 7214.85)
-    RETURNING *;
+    (10, 'Slam Dunk', 'Los Angeles', 801.65 , 'Fitness', 'Paul', 'Reebok', 'High-tops', 9, '23 August 2022', 7214.85),
+    (11, 'Hannah Bee', 'Milan', 325.00 , 'Fashion', 'Verity', 'Chanel', 'Photography', 6, '1 March 2022', 1625),
+    (11, 'Hannah Bee', 'Milan', 325.00 , 'Fashion', 'Verity', 'Dior', 'Photography', 6, '1 March 2022', 1625),
+    (11, 'Hannah Bee', 'Milan', 325.00 , 'Fashion', 'Verity', 'Stella McCartney', 'Photography', 6, '1 March 2022', 1625),
+    (12, 'Rainsface W', 'Athens', 120.00 , 'Swimsuit', 'Katherine', 'United Utilities', 'Impromptu crying', 3, '14 May 2022', 480),
+    (13, 'Raul Pogerson', 'Stockholm', 50.00 , 'Commercial', 'Christian', 'Listo Burritos', 'Messy eating', 2, '12 September 2022', 950),
+    (14, 'Ray Z', 'London', 470.68 , 'Parts', 'Kev', 'Marvel Studios', 'Card magic', 7, '18 April 2022', 5177.48)
+RETURNING *;
