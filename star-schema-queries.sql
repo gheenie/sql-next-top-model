@@ -6,60 +6,91 @@ JOIN dim_agents USING (agent_id)
 ORDER BY agent_average_rating
 LIMIT 1;
 
-WITH events_worked_per_model AS (
+WITH events_per_model AS (
     SELECT model_name, COUNT(model_id) AS events_worked
     FROM fact_revenues
     JOIN dim_models USING (model_id)
     GROUP BY model_name, model_id
 ),
-max_events_worked AS (
-    SELECT MAX(events_worked)
-    FROM events_worked_per_model
+max_events_worked_per_model AS (
+    SELECT MAX(events_worked) AS max_events_worked
+    FROM events_per_model
 )
 SELECT model_name
-FROM events_worked_per_model
+FROM events_per_model
 WHERE events_worked = (
-    SELECT * FROM max_events_worked
+    SELECT max_events_worked FROM max_events_worked_per_model
 );
 
 WITH events_per_quarter AS (
-    SELECT quarter, COUNT(quarter) AS events_count
+    SELECT quarter, COUNT(quarter) AS events_held
     FROM fact_revenues
     JOIN dim_dates USING (date_id)
     GROUP BY quarter
 ),
-max_events_count AS (
-    SELECT MAX(events_count)
+max_events_held_per_quarter AS (
+    SELECT MAX(events_held) AS max_events_held
     FROM events_per_quarter
 )
 SELECT quarter
 FROM events_per_quarter
-WHERE events_count = (
-    SELECT * FROM max_events_count
+WHERE events_held = (
+    SELECT max_events_held FROM max_events_held_per_quarter
 );
 
 WITH events_per_quarter AS (
-    SELECT quarter, COUNT(quarter) AS events_count, SUM(revenue) AS total_revenue_per_quarter
+    SELECT quarter, COUNT(quarter) AS events_held, SUM(revenue) AS total_revenue
     FROM fact_revenues
     JOIN dim_dates USING (date_id)
     GROUP BY quarter
 ),
-max_events_count AS (
-    SELECT MAX(events_count)
+max_events_held_per_quarter AS (
+    SELECT MAX(events_held) AS max_events_held
     FROM events_per_quarter
 ),
 busiest_quarter AS (
     SELECT quarter
     FROM events_per_quarter
-    WHERE events_count = (
-        SELECT * FROM max_events_count
+    WHERE events_held = (
+        SELECT max_events_held FROM max_events_held_per_quarter
     )
 )
-SELECT total_revenue_per_quarter
+SELECT total_revenue
 FROM events_per_quarter
 WHERE quarter = (
     SELECT quarter FROM busiest_quarter
 );
+
+WITH events_per_category AS (
+    SELECT category_id, SUM(revenue) AS total_revenue
+    FROM fact_revenues
+    GROUP BY category_id
+),
+max_total_revenue_per_category AS (
+    SELECT MAX(total_revenue) AS max_total_revenue
+    FROM events_per_category
+),
+category_ids_with_max_total_revenue AS (
+    SELECT category_id
+    FROM events_per_category
+    WHERE total_revenue = (
+        SELECT max_total_revenue FROM max_total_revenue_per_category
+    )
+)
+SELECT category
+FROM dim_categories
+WHERE category_id IN (
+    SELECT category_id FROM category_ids_with_max_total_revenue
+);
+
+-- Less optimal solution for task 2.3.5
+
+SELECT category, SUM(revenue) OVER (PARTITION BY category_id) AS total_revenue_per_category
+FROM fact_revenues
+JOIN dim_categories USING (category_id)
+ORDER BY total_revenue_per_category DESC
+LIMIT 1;
+
 
 -- SELECT agent_name FROM fact_rating JOIN agents ON fact_rating.agent_id = agents.agent_id GROUP BY agents.agent_id ORDER BY AVG(fact_rating.rating) ASC LIMIT 1;
 
