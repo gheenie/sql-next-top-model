@@ -10,12 +10,12 @@
 
 \c topmodelsql
 
-DROP TABLE IF EXISTS fact_revenue;
+DROP TABLE IF EXISTS fact_revenues;
 DROP TABLE IF EXISTS fact_models;
 DROP TABLE IF EXISTS dim_dates;
 DROP TABLE IF EXISTS dim_brands;
-DROP TABLE IF EXISTS dim_category;
-DROP TABLE IF EXISTS dim_area;
+DROP TABLE IF EXISTS dim_categories;
+DROP TABLE IF EXISTS dim_areas;
 DROP TABLE IF EXISTS dim_agents;
 DROP TABLE IF EXISTS dim_models;
 
@@ -29,12 +29,12 @@ CREATE TABLE dim_agents(
     agent VARCHAR(50)
 );
 
-CREATE TABLE dim_area(
+CREATE TABLE dim_areas(
     area_id SERIAL PRIMARY KEY,
     area VARCHAR(50)
 );
 
-CREATE TABLE dim_category(
+CREATE TABLE dim_categories(
     category_id SERIAL PRIMARY KEY,
     category VARCHAR(100)
 );
@@ -70,16 +70,17 @@ CREATE TABLE fact_models(
     model_id INT REFERENCES dim_models(model_id),
     agent_id INT REFERENCES dim_agents(agent_id),
     brand_id INT REFERENCES dim_brands(brand_id),
-    area_id INT REFERENCES dim_area(area_id),
-    category_id INT REFERENCES dim_category(category_id)
+    area_id INT REFERENCES dim_areas(area_id),
+    category_id INT REFERENCES dim_categories(category_id)
 );
 
-CREATE TABLE fact_revenue(
+CREATE TABLE fact_revenues(
+    revenue_id SERIAL PRIMARY KEY,
     revenue FLOAT,
     model_id INT references dim_models(model_id),
     agent_id INT references dim_agents(agent_id),
     date_id DATE references dim_dates(date_id),
-    category_id INT REFERENCES dim_category(category_id)
+    category_id INT REFERENCES dim_categories(category_id)
 );
 
 -- Seeding dimension tables
@@ -94,12 +95,12 @@ INSERT INTO dim_agents
     SELECT DISTINCT agent FROM models
 RETURNING *;
 
-INSERT INTO dim_area
+INSERT INTO dim_areas
     (area)
     SELECT DISTINCT area FROM models
 RETURNING *;
 
-INSERT INTO dim_category
+INSERT INTO dim_categories
     (category)
     SELECT DISTINCT category FROM models
 RETURNING *;
@@ -111,7 +112,7 @@ RETURNING *;
 
 -- Seeding fact tables
 
-INSERT INTO fact_revenue
+INSERT INTO fact_revenues
     (revenue, model_id, date_id)
     SELECT revenue, model_id, CAST(event_date AS DATE) FROM models;
 
@@ -120,22 +121,22 @@ WITH agents AS (
     FROM dim_agents 
     JOIN models USING (agent)
 )
-UPDATE fact_revenue
-SET agent_id = (SELECT agent_id FROM agents WHERE fact_revenue.model_id = agents.model_id);
+UPDATE fact_revenues
+SET agent_id = (SELECT agent_id FROM agents WHERE fact_revenues.model_id = agents.model_id);
 
 WITH categories AS (
     SELECT category_id, model_id 
-    FROM dim_category 
+    FROM dim_categories 
     JOIN models USING (category)
 )
-UPDATE fact_revenue
+UPDATE fact_revenues
 SET category_id = (
     SELECT category_id 
     FROM categories 
-    WHERE fact_revenue.model_id = categories.model_id
+    WHERE fact_revenues.model_id = categories.model_id
 );
 
-SELECT * FROM fact_revenue;
+SELECT * FROM fact_revenues;
 
 INSERT INTO fact_models
     (rating, price_per_event, trait, model_id)
@@ -155,7 +156,7 @@ SET agent_id = (
 
 WITH areas AS (
     SELECT area_id, model_id 
-    FROM dim_area 
+    FROM dim_areas 
     JOIN models USING (area)
 )
 UPDATE fact_models
@@ -167,7 +168,7 @@ SET area_id = (
 
 WITH categories AS (
     SELECT category_id, model_id 
-    FROM dim_category 
+    FROM dim_categories 
     JOIN models USING (category)
 )
 UPDATE fact_models
