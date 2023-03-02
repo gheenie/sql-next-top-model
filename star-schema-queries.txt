@@ -52,3 +52,42 @@ You are now connected to database "topmodelsql" as user "gk".
  1221.65
 (1 row)
 
+ brand_id |       brand        | model_id 
+----------+--------------------+----------
+       16 | Louboutin          |        1
+       13 | H&M                |        1
+        2 | Aldi               |        2
+       23 | Poundland          |        2
+       27 | Patagonia          |        3
+       22 | Salomon            |        3
+       17 | Buff               |        3
+        7 | Atlantis Doromania |        4
+       15 | Adidas             |        4
+       28 | Ebay               |        5
+        5 | Vinted             |        5
+       19 | Instagram          |        5
+       11 | Charities          |        6
+        4 | Oricle             |        7
+        3 | Marks and Spencer  |        7
+       24 | HSBC               |        8
+        8 | Wayfair            |        9
+       21 | Amazon             |        9
+       25 | Ikea               |        9
+       12 | Nike               |       10
+        6 | Reebok             |       10
+       18 | Adidas             |       10
+       20 | Chanel             |       11
+        9 | Dior               |       11
+       10 | Stella McCartney   |       11
+       26 | United Utilities   |       12
+        1 | Listo Burritos     |       13
+       14 | Atlantis Doromania |       14
+       29 | Marvel Studios     |       14
+(29 rows)
+
+ agent  
+--------
+ Verity
+ Paul
+(2 rows)
+

@@ -121,14 +121,25 @@ WHERE agent_id IN (
     SELECT agent_id FROM paul_rose_ids
 );
 
--- SELECT agent_name FROM fact_rating JOIN agents ON fact_rating.agent_id = agents.agent_id GROUP BY agents.agent_id ORDER BY AVG(fact_rating.rating) ASC LIMIT 1;
-
--- -- How much does it cost to hire all models that are represented by Pau-- fact_revenue: revenue, model_id, agent_id, date_id, category_id
--- -- fact_models : rating, price, trait, model_id, agent_id, brand_id, area_id, category_idl & Rose?
-
--- SELECT SUM(price) FROM dim_models JOIN dim_agents ON dim_models.agent_id = dim_agents.agent_id WHERE dim_agents.agent_id = "Paul" OR dim_agents.agent_id = "Rose";
-
--- -- How many brands are represented by models from London?
-
--- SELECT COUNT(DISTINCT(brand_id)) FROM fact_models WHERE area_id IN (SELECT area_id FROM dim_area WHERE area = "London");
-
+WITH brands_per_agent AS (
+    SELECT agent_id, COUNT(DISTINCT brand) AS num_of_associated_brands
+    FROM fact_revenues
+    JOIN dim_brands USING (model_id)
+    GROUP BY agent_id
+),
+max_num_of_associated_brands_per_agent AS (
+    SELECT MAX(num_of_associated_brands) as max_num_of_associated_brands
+    FROM brands_per_agent
+),
+agent_ids_with_max_num_of_associated_brands AS (
+    SELECT agent_id
+    FROM brands_per_agent
+    WHERE num_of_associated_brands = (
+        SELECT max_num_of_associated_brands FROM max_num_of_associated_brands_per_agent
+    )
+)
+SELECT agent
+FROM dim_agents
+WHERE agent_id IN (
+    SELECT agent_id FROM agent_ids_with_max_num_of_associated_brands
+);
