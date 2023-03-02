@@ -12,9 +12,9 @@ INSERT 0 2
 (1 row)
 
 INSERT 0 1
- model_id |  model_name   | price_per_event | agent  |    trait     | rating |    event_date    | revenue 
-----------+---------------+-----------------+--------+--------------+--------+------------------+---------
-        1 | Bartholomew P |          499.99 | Vivian | Pro strutter |      7 | 15 November 2022 | 2999.94
+ model_id | model_name | price_per_event | agent  |    trait    | rating |  event_date  | revenue 
+----------+------------+-----------------+--------+-------------+--------+--------------+---------
+       11 | Hannah Bee |             325 | Vivian | Photography |      6 | 1 March 2022 |    1625
 (1 row)
 
 UPDATE 1

@@ -20,20 +20,21 @@ RETURNING *;
 
 INSERT INTO thirdnf_agents
     (area, agent, category)
-VALUES
-    ('Milan', 'Vivian', 'Fashion')
+    SELECT area, 'Vivian', category
+    FROM thirdnf_agents
+    WHERE agent = 'Verity'
 RETURNING *;
 
-WITH louboutin_models AS (
+WITH dior_models AS (
     SELECT model_id 
     FROM thirdnf_brands 
-    WHERE brand = 'Louboutin'
+    WHERE brand = 'Dior'
 )
 UPDATE thirdnf_models
 SET agent = 'Vivian'
 WHERE agent = 'Verity'
 AND model_id IN (
-    SELECT model_id FROM louboutin_models
+    SELECT model_id FROM dior_models
 )
 RETURNING *;
 
