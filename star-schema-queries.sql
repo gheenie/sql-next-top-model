@@ -38,6 +38,29 @@ WHERE events_count = (
     SELECT * FROM max_events_count
 );
 
+WITH events_per_quarter AS (
+    SELECT quarter, COUNT(quarter) AS events_count, SUM(revenue) AS total_revenue_per_quarter
+    FROM fact_revenues
+    JOIN dim_dates USING (date_id)
+    GROUP BY quarter
+),
+max_events_count AS (
+    SELECT MAX(events_count)
+    FROM events_per_quarter
+),
+busiest_quarter AS (
+    SELECT quarter
+    FROM events_per_quarter
+    WHERE events_count = (
+        SELECT * FROM max_events_count
+    )
+)
+SELECT total_revenue_per_quarter
+FROM events_per_quarter
+WHERE quarter = (
+    SELECT quarter FROM busiest_quarter
+);
+
 -- SELECT agent_name FROM fact_rating JOIN agents ON fact_rating.agent_id = agents.agent_id GROUP BY agents.agent_id ORDER BY AVG(fact_rating.rating) ASC LIMIT 1;
 
 -- -- How much does it cost to hire all models that are represented by Pau-- fact_revenue: revenue, model_id, agent_id, date_id, category_id
