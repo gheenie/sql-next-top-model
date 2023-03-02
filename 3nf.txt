@@ -1,4 +1,4 @@
-You are now connected to database "topmodelsql" as user "george".
+You are now connected to database "topmodelsql" as user "gk".
 DROP TABLE
 DROP TABLE
 DROP TABLE
@@ -17,21 +17,25 @@ CREATE TABLE
 (7 rows)
 
 INSERT 0 7
- model_id |    model_name    | price_per_event |   agent   |      trait      | rating |    event_date     | revenue 
-----------+------------------+-----------------+-----------+-----------------+--------+-------------------+---------
-        8 | Sam Pagne        |          899.99 | Katherine | Old-money       |      9 | 20 January 2022   | 9899.89
-        6 | Cat Wang         |             600 | Verity    | Catwalker       |      8 | 14 May 2022       |    3600
-       10 | Slam Dunk        |          801.65 | Paul      | High-tops       |      9 | 23 August 2022    | 7214.85
-        4 | Rathbones Arr    |          263.82 | Kev       | Hand modelling  |      5 | 6 March 2022      | 1846.74
-        5 | Sarah B          |          432.25 | Alex      | Influencer      |      7 | 23 October 2022   |    3458
-        2 | Notso Neat       |            9.99 | Alex      | The dadbod drop |      1 | 12 September 2022 |  149.85
-        7 | Starr Schema     |             250 | Rose      | Databases       |      5 | 12 September 2022 |    1500
-        1 | Bartholomew P    |          499.99 | Verity    | Pro strutter    |      7 | 15 November 2022  | 2999.94
-        3 | Jarred MacKenzie |             170 | Paul      | Fire_eating     |      4 | 8 January 2022    |    1530
-        9 | Salle De Bain    |             150 | Christian | Architect       |      3 | 16 July 2022      |    1050
-(10 rows)
+ model_id |    model_name    | price_per_event |   agent   |      trait       | rating |    event_date     | revenue 
+----------+------------------+-----------------+-----------+------------------+--------+-------------------+---------
+        8 | Sam Pagne        |          899.99 | Katherine | Old-money        |      9 | 20 January 2022   | 9899.89
+       14 | Ray Z            |          470.68 | Kev       | Card magic       |      7 | 18 April 2022     | 5177.48
+        6 | Cat Wang         |             600 | Verity    | Catwalker        |      8 | 14 May 2022       |    3600
+       10 | Slam Dunk        |          801.65 | Paul      | High-tops        |      9 | 23 August 2022    | 7214.85
+       13 | Raul Pogerson    |              50 | Christian | Messy eating     |      2 | 12 September 2022 |     950
+        4 | Rathbones Arr    |          263.82 | Kev       | Hand modelling   |      5 | 6 March 2022      | 1846.74
+        5 | Sarah B          |          432.25 | Alex      | Influencer       |      7 | 23 October 2022   |    3458
+       12 | Rainsface W      |             120 | Katherine | Impromptu crying |      3 | 14 May 2022       |     480
+       11 | Hannah Bee       |             325 | Verity    | Photography      |      6 | 1 March 2022      |    1625
+        2 | Notso Neat       |            9.99 | Alex      | The dadbod drop  |      1 | 12 September 2022 |  149.85
+        7 | Starr Schema     |             250 | Rose      | Databases        |      5 | 12 September 2022 |    1500
+        1 | Bartholomew P    |          499.99 | Verity    | Pro strutter     |      7 | 15 November 2022  | 2999.94
+        3 | Jarred MacKenzie |             170 | Paul      | Fire_eating      |      4 | 8 January 2022    |    1530
+        9 | Salle De Bain    |             150 | Christian | Architect        |      3 | 16 July 2022      |    1050
+(14 rows)
 
-INSERT 0 10
+INSERT 0 14
        brand       | model_id 
 -------------------+----------
  Louboutin         |        1
@@ -56,6 +60,12 @@ INSERT 0 10
  Nike              |       10
  Adidas            |       10
  Reebok            |       10
-(22 rows)
+ Chanel            |       11
+ Dior              |       11
+ Stella McCartney  |       11
+ United Utilities  |       12
+ Listo Burritos    |       13
+ Marvel Studios    |       14
+(28 rows)
 
-INSERT 0 22
+INSERT 0 28

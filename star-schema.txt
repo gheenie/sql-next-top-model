@@ -73,31 +73,38 @@ INSERT 0 7
 INSERT 0 7
  brand_id |       brand        | model_id 
 ----------+--------------------+----------
-        1 | Aldi               |        2
-        2 | Marks and Spencer  |        7
-        3 | Oricle             |        7
-        4 | Vinted             |        5
-        5 | Reebok             |       10
-        6 | Atlantis Doromania |        4
-        7 | Wayfair            |        9
-        8 | Charities          |        6
-        9 | Nike               |       10
-       10 | H&M                |        1
-       11 | Adidas             |        4
-       12 | Louboutin          |        1
-       13 | Buff               |        3
-       14 | Adidas             |       10
-       15 | Instagram          |        5
-       16 | Amazon             |        9
-       17 | Salomon            |        3
-       18 | Poundland          |        2
-       19 | HSBC               |        8
-       20 | Ikea               |        9
-       21 | Patagonia          |        3
-       22 | Ebay               |        5
-(22 rows)
+        1 | Listo Burritos     |       13
+        2 | Aldi               |        2
+        3 | Marks and Spencer  |        7
+        4 | Oricle             |        7
+        5 | Vinted             |        5
+        6 | Reebok             |       10
+        7 | Atlantis Doromania |        4
+        8 | Wayfair            |        9
+        9 | Dior               |       11
+       10 | Stella McCartney   |       11
+       11 | Charities          |        6
+       12 | Nike               |       10
+       13 | H&M                |        1
+       14 | Atlantis Doromania |       14
+       15 | Adidas             |        4
+       16 | Louboutin          |        1
+       17 | Buff               |        3
+       18 | Adidas             |       10
+       19 | Instagram          |        5
+       20 | Chanel             |       11
+       21 | Amazon             |        9
+       22 | Salomon            |        3
+       23 | Poundland          |        2
+       24 | HSBC               |        8
+       25 | Ikea               |        9
+       26 | United Utilities   |       12
+       27 | Patagonia          |        3
+       28 | Ebay               |        5
+       29 | Marvel Studios     |       14
+(29 rows)
 
-INSERT 0 22
+INSERT 0 29
 INSERT 0 14
 UPDATE 14
 UPDATE 14
