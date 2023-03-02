@@ -42,3 +42,13 @@ You are now connected to database "topmodelsql" as user "gk".
  Swimsuit |                   10379.89
 (1 row)
 
+ count 
+-------
+     3
+(1 row)
+
+   sum   
+---------
+ 1221.65
+(1 row)
+

@@ -91,6 +91,35 @@ JOIN dim_categories USING (category_id)
 ORDER BY total_revenue_per_category DESC
 LIMIT 1;
 
+WITH london_area_id AS (
+    SELECT area_id
+    FROM dim_areas
+    WHERE area = 'London'
+),
+london_model_ids AS (
+    SELECT model_id
+    FROM fact_models
+    WHERE area_id = (
+        SELECT area_id FROM london_area_id
+    )
+)
+SELECT COUNT(DISTINCT brand)
+FROM dim_brands
+WHERE model_id IN (
+    SELECT model_id FROM london_model_ids
+);
+
+WITH paul_rose_ids AS (
+    SELECT agent_id
+    FROM dim_agents
+    WHERE agent = 'Paul'
+    OR agent = 'Rose'
+)
+SELECT SUM(price_per_event)
+FROM fact_models
+WHERE agent_id IN (
+    SELECT agent_id FROM paul_rose_ids
+);
 
 -- SELECT agent_name FROM fact_rating JOIN agents ON fact_rating.agent_id = agents.agent_id GROUP BY agents.agent_id ORDER BY AVG(fact_rating.rating) ASC LIMIT 1;
 
