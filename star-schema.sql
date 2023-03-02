@@ -80,6 +80,7 @@ CREATE TABLE fact_revenue(
     category_id INT REFERENCES dim_category(category_id)
 );
 
+-- Seeding dimension tables
 
 INSERT INTO dim_models
     (model_id, model_name)
@@ -106,10 +107,11 @@ INSERT INTO dim_brands
     SELECT brand, model_id FROM thirdnf_brands
 RETURNING *;
 
+-- Seeding fact tables
+
 INSERT INTO fact_revenue
     (revenue, model_id, date_id)
-    SELECT revenue, model_id, CAST(event_date AS DATE) FROM models
-RETURNING *;
+    SELECT revenue, model_id, CAST(event_date AS DATE) FROM models;
 
 WITH agents AS (SELECT agent_id, model_id FROM dim_agents JOIN models USING (agent))
 UPDATE fact_revenue
@@ -121,6 +123,16 @@ SET category_id = (SELECT category_id FROM categories WHERE fact_revenue.model_i
 
 SELECT * FROM fact_revenue;
 
--- INSERT INTO fact_models
---     (rating, price_per_event, trait, model_id, agent_id, category_id)
---     SELECT 
+INSERT INTO fact_models
+    (rating, price_per_event, trait, model_id)
+    SELECT rating, price_per_event, trait, model_id FROM models;
+
+WITH agents AS (SELECT agent_id, model_id FROM dim_agents JOIN models USING (agent))
+UPDATE fact_models
+SET agent_id = (SELECT agent_id FROM agents WHERE fact_models.model_id = agents.model_id);
+
+WITH categories AS (SELECT category_id, model_id FROM dim_category JOIN models USING (category))
+UPDATE fact_models
+SET category_id = (SELECT category_id FROM categories WHERE fact_models.model_id = categories.model_id);
+
+SELECT * FROM fact_models;
