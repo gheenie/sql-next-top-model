@@ -1,42 +1,81 @@
-
-
--- dim_models(model_id, model_name, category)
+-- dim_models(model_id, model_name)
 -- dim_agents(agent_id, agent)
 -- dim_dates(date_id, day_of_month, month, year, weekday, quarter)
 -- dim_brands(brand_id, brand)
 -- dim_area(area_id, area)
+-- dim_category(category_id, category)
 
--- fact_revenue: revenue, model_id, agent_id, brand_id, date_id
--- fact_models : rating, price, trait, model_id, agent_id, brand_id, area_id
+-- fact_revenue: revenue, model_id, agent_id, date_id, category_id
+-- fact_models : rating, price, trait, model_id, agent_id, brand_id, area_id, category_id
 
 \c topmodelsql
 
-DROP TABLE IF EXISTS dim_area
-DROP TABLE IF EXISTS dim_brands
-DROP TABLE IF EXISTS dim_dates
-DROP TABLE IF EXISTS dim_agents
-DROP TABLE IF EXISTS dim_models
-DROP TABLE IF EXISTS fact_revenue
-DROP TABLE IF EXISTS fact_models
+DROP TABLE IF EXISTS dim_area;
+DROP TABLE IF EXISTS dim_brands;
+DROP TABLE IF EXISTS dim_dates;
+DROP TABLE IF EXISTS dim_agents;
+DROP TABLE IF EXISTS dim_models;
+DROP TABLE IF EXISTS fact_revenue;
+DROP TABLE IF EXISTS fact_models;
 
--- Which agent has the lowest rated models?
---get average rating for each agent
---sort lowest to highest
---limit 1
+CREATE TABLE dim_area(
+    area_id SERIAL PRIMARY KEY,
+    area VARCHAR(50)
+);
 
---get agent ids
---match each agent id to their models ids, grouped by agent id
---get the average rating for those models ids, grouped by agent id
---sort lowest to highest
---limit 1
+CREATE TABLE dim_models(
+    model_id SERIAL PRIMARY KEY,
+    model_name VARCHAR(100)
+);
 
-SELECT agent_name FROM fact_rating JOIN agents ON fact_rating.agent_id = agents.agent_id GROUP BY agents.agent_id ORDER BY AVG(fact_rating.rating) ASC LIMIT 1;
+CREATE TABLE dim_brands(
+    brand_id SERIAL PRIMARY KEY,
+    brand TEXT,
+    model_id INT REFERENCES dim_models(model_id)
+);
 
--- How much does it cost to hire all models that are represented by Paul & Rose?
+CREATE TABLE dim_dates AS
+SELECT
+    ts_seq AS date_id,
+    EXTRACT(day FROM ts_seq) AS day_of_month,
+    TO_CHAR(ts_seq, 'TMDay') AS day_name,
+    EXTRACT(isodow FROM ts_seq) AS day_of_week,
+    EXTRACT(month from ts_seq) AS month_number,
+    TO_CHAR(ts_seq, 'TMMonth') AS month_name,
+    EXTRACT(year FROM ts_seq) AS year,
+    EXTRACT(quarter FROM ts_seq) AS quarter,
+    'FY' || EXTRACT(year FROM ts_seq - interval '3 month')::VARCHAR AS financial_year
+FROM
+    (SELECT '2020-01-01'::DATE + sequence.day AS ts_seq
+        FROM GENERATE_SERIES(0,2000) AS sequence(day)) dq;
 
-SELECT SUM(price) FROM dim_models JOIN dim_agents ON dim_models.agent_id = dim_agents.agent_id WHERE dim_agents.agent_id = "Paul" OR dim_agents.agent_id = "Rose";
+ALTER TABLE dim_dates ADD CONSTRAINT dim_dates_pk PRIMARY KEY(date_id);
 
--- How many brands are represented by models from London?
+CREATE TABLE dim_agents(
+    agent_id SERIAL PRIMARY KEY,
+    agent VARCHAR(50)
+);
 
-SELECT COUNT(DISTINCT(brand_id)) FROM fact_models WHERE area_id IN (SELECT area_id FROM dim_area WHERE area = "London");
+CREATE TABLE dim_category(
+    category_id SERIAL PRIMARY KEY,
+    category VARCHAR(100)
+);
 
+CREATE TABLE fact_models(
+    rating INT,
+    price_per_event FLOAT,
+    trait VARCHAR(60),
+    model_id INT REFERENCES dim_models(model_id),
+    agent_id INT REFERENCES dim_agents(agent_id),
+    brand_id INT REFERENCES dim_brands(brand_id),
+    date_id DATE REFERENCES dim_dates(date_id),
+    category_id INT REFERENCES dim_category(category_id)
+);
+
+CREATE TABLE fact_revenue(
+    revenue INT,
+    model_id INT references dim_models(model_id),
+    agent_id INT references dim_agents(agent_id),
+    date_id DATE references dim_dates(date_id),
+    category_id INT REFERENCES dim_category(category_id)
+);
