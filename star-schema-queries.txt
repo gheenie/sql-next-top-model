@@ -1,0 +1,29 @@
+You are now connected to database "topmodelsql" as user "gk".
+   agent   | agent_average_rating 
+-----------+----------------------
+ Christian |   2.5000000000000000
+(1 row)
+
+    model_name    
+------------------
+ Notso Neat
+ Cat Wang
+ Slam Dunk
+ Rainsface W
+ Hannah Bee
+ Sarah B
+ Raul Pogerson
+ Sam Pagne
+ Rathbones Arr
+ Starr Schema
+ Bartholomew P
+ Jarred MacKenzie
+ Salle De Bain
+ Ray Z
+(14 rows)
+
+ quarter 
+---------
+       3
+(1 row)
+
