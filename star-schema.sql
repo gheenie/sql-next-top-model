@@ -69,6 +69,7 @@ CREATE TABLE fact_models(
     model_id INT REFERENCES dim_models(model_id),
     agent_id INT REFERENCES dim_agents(agent_id),
     brand_id INT REFERENCES dim_brands(brand_id),
+    area_id INT REFERENCES dim_area(area_id),
     category_id INT REFERENCES dim_category(category_id)
 );
 
@@ -89,22 +90,22 @@ RETURNING *;
 
 INSERT INTO dim_agents
     (agent)
-    SELECT DISTINCT(agent) FROM models
+    SELECT DISTINCT agent FROM models
 RETURNING *;
 
 INSERT INTO dim_category
     (category)
-    SELECT DISTINCT(category) FROM models
+    SELECT DISTINCT category FROM models
 RETURNING *;
 
 INSERT INTO dim_area
     (area)
-    SELECT area FROM models
+    SELECT DISTINCT area FROM models
 RETURNING *;
 
 INSERT INTO dim_brands
     (brand, model_id)
-    SELECT brand, model_id FROM thirdnf_brands
+    SELECT DISTINCT brand, model_id FROM thirdnf_brands
 RETURNING *;
 
 -- Seeding fact tables
@@ -134,5 +135,9 @@ SET agent_id = (SELECT agent_id FROM agents WHERE fact_models.model_id = agents.
 WITH categories AS (SELECT category_id, model_id FROM dim_category JOIN models USING (category))
 UPDATE fact_models
 SET category_id = (SELECT category_id FROM categories WHERE fact_models.model_id = categories.model_id);
+
+WITH areas AS (SELECT area_id, model_id FROM dim_area JOIN models USING (area))
+UPDATE fact_models
+SET area_id = (SELECT area_id FROM areas WHERE fact_models.model_id = areas.model_id);
 
 SELECT * FROM fact_models;
