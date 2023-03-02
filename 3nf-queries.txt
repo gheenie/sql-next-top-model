@@ -18,4 +18,9 @@ INSERT 0 1
 (1 row)
 
 UPDATE 1
+  brand  | model_id 
+---------+----------
+ Harrods |        8
+(1 row)
+
 DELETE 1

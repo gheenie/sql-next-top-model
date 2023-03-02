@@ -1,4 +1,5 @@
 \c topmodelsql
+
 DROP TABLE IF EXISTS firstnf_models;
 
 CREATE TABLE firstnf_models

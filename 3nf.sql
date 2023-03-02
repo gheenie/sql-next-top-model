@@ -31,13 +31,18 @@ CREATE TABLE thirdnf_brands
 
 INSERT INTO thirdnf_agents
     (area, agent, category)
-    SELECT DISTINCT area, agent, category FROM secondnf_models RETURNING *;
-
+    SELECT DISTINCT area, agent, category 
+    FROM secondnf_models 
+RETURNING *;
 
 INSERT INTO thirdnf_models
     (model_id, model_name, price_per_event, agent, trait, rating, event_date, revenue)
-    SELECT model_id, model_name, price_per_event, agent, trait, rating, event_date, revenue FROM secondnf_models RETURNING *;
+    SELECT model_id, model_name, price_per_event, agent, trait, rating, event_date, revenue 
+    FROM secondnf_models 
+RETURNING *;
 
 INSERT INTO thirdnf_brands
     (brand, model_id)
-    SELECT brand, model_id FROM secondnf_brands RETURNING *;
+    SELECT brand, model_id 
+    FROM secondnf_brands 
+RETURNING *;

@@ -25,11 +25,12 @@ CREATE TABLE secondnf_brands
 
 INSERT INTO secondnf_models
     (model_id, model_name, area, price_per_event, category, agent, trait, rating, event_date, revenue ) 
-    SELECT DISTINCT model_id, model_name, area, price_per_event, category, agent, trait, rating, event_date, revenue FROM firstnf_models
-    RETURNING *;
+    SELECT DISTINCT model_id, model_name, area, price_per_event, category, agent, trait, rating, event_date, revenue 
+    FROM firstnf_models
+RETURNING *;
 
 INSERT INTO secondnf_brands
     (brand, model_id)
-    SELECT brand, model_id FROM firstnf_models
-    RETURNING *;
-
+    SELECT brand, model_id 
+    FROM firstnf_models
+RETURNING *;
